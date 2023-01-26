@@ -120,9 +120,10 @@ class ChartView extends StatelessWidget {
                               datum.ovrsNmixPrpr,
                           trendlines: <Trendline>[
                             Trendline(
-                              type: TrendlineType.linear,
+                              type: TrendlineType.polynomial,
                               color: Colors.white,
                               width: 0.5,
+                              forwardForecast: 1,
                             ),
                           ],
                         ),

@@ -15,6 +15,7 @@ class StockView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
+    if (stockData.symb == 'error') return Container();
     return Consumer<StockProvider>(
       builder: (context, value, child) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 6),
@@ -25,6 +26,13 @@ class StockView extends StatelessWidget {
             );
           },
           style: ButtonStyle(
+            shape: const MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(12.0),
+                ),
+              ),
+            ),
             backgroundColor: value.stockData.symb == stockData.symb
                 ? MaterialStatePropertyAll(colorScheme.surfaceVariant)
                 : MaterialStatePropertyAll(colorScheme.surface),
@@ -55,9 +63,13 @@ class StockView extends StatelessWidget {
                         ),
                         Text(
                           stockData.name,
-                          style: mediumTextStyle.copyWith(
-                            color: colorScheme.onBackground,
-                          ),
+                          style: stockData.name.length > 20
+                              ? smallTextStyle.copyWith(
+                                  color: colorScheme.onBackground,
+                                )
+                              : mediumTextStyle.copyWith(
+                                  color: colorScheme.onBackground,
+                                ),
                         ),
                       ],
                     ),

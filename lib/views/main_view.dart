@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_icons/simple_icons.dart';
 import 'package:valor/controllers/chart_controller.dart';
 import 'package:valor/controllers/stock_controller.dart';
 import 'package:valor/models/constant_model.dart';
@@ -24,16 +25,17 @@ class MainView extends StatelessWidget {
     try {
       await chartController.initialize();
       await stockController.initialize();
-      for (int i = 0; i < symbList.length; i++) {
+
+      for (int i = 0; i < 100; i++) {
         stockModel.add(
           await stockController.price(
             symb: symbList[i],
             name: nameList[i],
-            icon: iconList[i],
+            icon: iconMap[symbList[i]] ?? SimpleIcons.flutter,
           ),
         );
       }
-      cardModel.initialize(stockModel.getNMostOrLeastRate(n: 4));
+      cardModel.initialize(stockModel.getNMostOrLeastRate(n: 10));
       return true;
     } catch (e) {
       return false;

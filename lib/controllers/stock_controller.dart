@@ -67,9 +67,9 @@ class StockController {
       );
     } catch (e) {
       return StockData(
-        symb: '0',
-        name: '0',
-        icon: Icons.abc,
+        symb: 'error',
+        name: 'error',
+        icon: icon,
         last: 0,
         diff: 0,
         rate: 0,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class StockData {
   final String SYMB;
@@ -24,11 +23,11 @@ class StockModel {
 
   void add(StockData stockData) => stockDataList.add(stockData);
 
-  StockData nth({required int n}) {
-    List<StockData> sortedStockDataList = stockDataList;
-    sortedStockDataList.sort((a, b) => a.rate.compareTo(b.rate));
+  List<StockData> getNMostOrLeastRate({required int n}) {
+    List<StockData> sortedStockDataList = stockDataList.map((e) => e).toList();
+    sortedStockDataList.sort((a, b) => b.rate.abs().compareTo(a.rate.abs()));
 
-    return sortedStockDataList[n];
+    return sortedStockDataList.sublist(0, n);
   }
 }
 

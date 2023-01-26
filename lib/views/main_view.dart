@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:valor/controllers/chart_controller.dart';
 import 'package:valor/controllers/stock_controller.dart';
 import 'package:valor/models/constant_model.dart';
 import 'package:valor/models/stock_model.dart';
 import 'package:valor/views/card_view.dart';
-import 'package:valor/views/detail_view.dart';
+import 'package:valor/views/chart_view.dart';
 import 'package:valor/views/stock_view.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:valor/models/card_model.dart';
 
-class StocksView extends StatelessWidget {
-  static String route = 'stocks_view';
-  StocksView({super.key});
+class MainView extends StatelessWidget {
+  static String route = 'main_view';
+  MainView({super.key});
 
+  ChartController chartController = ChartController();
   StockController stockController = StockController();
   StockModel stockModel = StockModel();
+  CardModel cardModel = CardModel();
 
   Future<bool> initialize() async {
     try {
+      await chartController.initialize();
       await stockController.initialize();
       for (int i = 0; i < SYMBList.length; i++) {
         stockModel.add(
@@ -27,6 +32,7 @@ class StocksView extends StatelessWidget {
           ),
         );
       }
+      cardModel.initialize(stockModel.getNMostOrLeastRate(n: 4));
       return true;
     } catch (e) {
       print('[Error] stocks_view initialize $e');
@@ -80,22 +86,12 @@ class StocksView extends StatelessWidget {
                               padding: mediumEdgeInsets,
                               child: ListView(
                                 scrollDirection: Axis.horizontal,
-                                children: [
-                                  CardView(
-                                    stockData: stockModel.nth(
-                                        n: stockModel.stockDataList.length - 1),
+                                children: List.generate(
+                                  cardModel.stockDataList.length,
+                                  (index) => CardView(
+                                    stockData: cardModel.stockDataList[index],
                                   ),
-                                  CardView(
-                                    stockData: stockModel.nth(
-                                        n: stockModel.stockDataList.length - 2),
-                                  ),
-                                  CardView(
-                                    stockData: stockModel.nth(n: 1),
-                                  ),
-                                  CardView(
-                                    stockData: stockModel.nth(n: 0),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
@@ -107,9 +103,6 @@ class StocksView extends StatelessWidget {
                                 children: List.generate(
                                   stockModel.stockDataList.length,
                                   (index) => StockView(
-                                    NAME: NAMEList[index],
-                                    SYMB: SYMBList[index],
-                                    ICON: ICONList[index],
                                     stockData: stockModel.stockDataList[index],
                                   ),
                                 ),
@@ -121,7 +114,7 @@ class StocksView extends StatelessWidget {
                     ),
                     Expanded(
                       flex: 2,
-                      child: DetailView(),
+                      child: ChartView(chartController: chartController),
                     ),
                   ],
                 ),

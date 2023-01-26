@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:valor/views/stocks_view.dart';
+import 'package:valor/views/main_view.dart';
 
 void main() {
   runApp(const Valor());
@@ -17,9 +17,9 @@ class Valor extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       routes: {
-        StocksView.route: (context) => StocksView(),
+        MainView.route: (context) => MainView(),
       },
-      initialRoute: StocksView.route,
+      initialRoute: MainView.route,
     );
   }
 }

@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'package:valor/models/detail_model.dart';
+import 'package:valor/models/chart_model.dart';
 import 'package:http/http.dart' as http;
 
-class DetailController {
+class ChartController {
   final String APP_KEY = 'PS13e7l2E553EXd7ajQy1Yhpl2FQleSnu9Bk';
   final String APP_SECRET =
       'i7ANXfra+KuDXYwkk4bukJ3a9ULdKyrxXeH7AXChsSYNsiYRYaIxqUEhnqAayXe2r6VAeJeCFQUPj2yrMOY1LmydcXZMnThNKp7YPYvO+SDInOD3FqA6nL5DSPoHGT3iLXuBn4E9tgPuOdNB2Zx8ZJeHPO5xrNm0JIa67PSUs3ha2Ior0zU=';
   final String AUTHORITY = 'openapi.koreainvestment.com:9443';
   String ACCESS_TOKEN = '';
 
-  // Initialize Detail Controller
+  // Initialize Chart Controller
   Future<void> initialize() async {
     try {
       http.Response response = await http.post(
@@ -30,8 +30,8 @@ class DetailController {
   }
 
   // Inquire Daily Price
-  Future<List<DetailData>> dailyPrice({required String SYMB}) async {
-    List<DetailData> detailDataList = [];
+  Future<List<ChartData>> dailyPrice({required String SYMB}) async {
+    List<ChartData> chartDataList = [];
 
     try {
       http.Response response = await http.get(
@@ -59,19 +59,19 @@ class DetailController {
       dynamic outputList = body['output2'];
 
       for (dynamic output in outputList) {
-        detailDataList.add(
-          DetailData(
+        chartDataList.add(
+          ChartData(
             stck_bsop_date: DateTime.parse(output['xymd']),
             ovrs_nmix_prpr: double.parse(output['clos']),
           ),
         );
       }
 
-      return detailDataList;
+      return chartDataList;
     } catch (e) {
-      print('[Error] detail_controller price: $e');
+      print('[Error] chart_controller price: $e');
 
-      return detailDataList;
+      return chartDataList;
     }
   }
 }

@@ -4,16 +4,10 @@ import 'package:valor/models/stock_model.dart';
 import 'package:valor/models/constant_model.dart';
 
 class StockView extends StatelessWidget {
-  final String SYMB;
-  final String NAME;
-  final IconData ICON;
   final StockData stockData;
 
   StockView({
     super.key,
-    required this.NAME,
-    required this.SYMB,
-    required this.ICON,
     required this.stockData,
   });
 
@@ -31,7 +25,7 @@ class StockView extends StatelessWidget {
             );
           },
           style: ButtonStyle(
-            backgroundColor: value.stockData.SYMB == SYMB
+            backgroundColor: value.stockData.SYMB == stockData.SYMB
                 ? MaterialStatePropertyAll(colorScheme.surfaceVariant)
                 : MaterialStatePropertyAll(colorScheme.surface),
           ),
@@ -44,7 +38,7 @@ class StockView extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      ICON,
+                      stockData.ICON,
                       size: 32,
                       color: colorScheme.onBackground,
                     ),
@@ -60,7 +54,7 @@ class StockView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          NAME,
+                          stockData.NAME,
                           style: mediumTextStyle.copyWith(
                             color: colorScheme.onBackground,
                           ),

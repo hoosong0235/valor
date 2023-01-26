@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:valor/controllers/detail_controller.dart';
+import 'package:valor/controllers/chart_controller.dart';
 import 'package:valor/models/constant_model.dart';
-import 'package:valor/models/detail_model.dart';
+import 'package:valor/models/chart_model.dart';
 import 'package:valor/models/stock_model.dart';
 
-class DetailView extends StatelessWidget {
-  DetailController detailController = DetailController();
-  DetailModel detailModel = DetailModel();
+class ChartView extends StatelessWidget {
+  late ChartController chartController;
+  ChartModel chartModel = ChartModel();
+
+  ChartView({required this.chartController});
 
   Future<bool> initialize({required String SYMB}) async {
     try {
-      await detailController.initialize();
-      detailModel.initialize(await detailController.dailyPrice(SYMB: SYMB));
+      chartModel.initialize(await chartController.dailyPrice(SYMB: SYMB));
 
       return true;
     } catch (e) {
-      print('[Error] detail_view initialize $e');
+      print('[Error] chart_view initialize $e');
       return false;
     }
   }
@@ -109,13 +110,13 @@ class DetailView extends StatelessWidget {
                     child: SfCartesianChart(
                       primaryXAxis: DateTimeAxis(),
                       primaryYAxis: NumericAxis(),
-                      series: <LineSeries<DetailData, DateTime>>[
-                        LineSeries<DetailData, DateTime>(
+                      series: <LineSeries<ChartData, DateTime>>[
+                        LineSeries<ChartData, DateTime>(
                           color: Colors.green,
-                          dataSource: detailModel.detailDataList,
-                          xValueMapper: (DetailData datum, index) =>
+                          dataSource: chartModel.chartDataList,
+                          xValueMapper: (ChartData datum, index) =>
                               datum.stck_bsop_date,
-                          yValueMapper: (DetailData datum, index) =>
+                          yValueMapper: (ChartData datum, index) =>
                               datum.ovrs_nmix_prpr,
                           trendlines: <Trendline>[
                             Trendline(

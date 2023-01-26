@@ -10,6 +10,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:valor/models/card_model.dart';
 
+// ignore: must_be_immutable
 class MainView extends StatelessWidget {
   static String route = 'main_view';
   MainView({super.key});
@@ -23,19 +24,18 @@ class MainView extends StatelessWidget {
     try {
       await chartController.initialize();
       await stockController.initialize();
-      for (int i = 0; i < SYMBList.length; i++) {
+      for (int i = 0; i < symbList.length; i++) {
         stockModel.add(
           await stockController.price(
-            SYMB: SYMBList[i],
-            NAME: NAMEList[i],
-            ICON: ICONList[i],
+            symb: symbList[i],
+            name: nameList[i],
+            icon: iconList[i],
           ),
         );
       }
       cardModel.initialize(stockModel.getNMostOrLeastRate(n: 4));
       return true;
     } catch (e) {
-      print('[Error] stocks_view initialize $e');
       return false;
     }
   }
@@ -66,7 +66,7 @@ class MainView extends StatelessWidget {
                             child: Padding(
                               padding: mediumEdgeInsets,
                               child: Row(
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.attach_money,
                                     size: 32,

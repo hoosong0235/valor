@@ -1,10 +1,10 @@
 class ChartData {
-  final DateTime stck_bsop_date;
-  final double ovrs_nmix_prpr;
+  final DateTime stckBsopDate;
+  final double ovrsNmixPrpr;
 
   ChartData({
-    required this.stck_bsop_date,
-    required this.ovrs_nmix_prpr,
+    required this.stckBsopDate,
+    required this.ovrsNmixPrpr,
   });
 }
 

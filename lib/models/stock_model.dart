@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class StockData {
-  final String SYMB;
-  final String NAME;
-  final IconData ICON;
+  final String symb;
+  final String name;
+  final IconData icon;
   final double last;
   final double diff;
   final double rate;
 
   StockData({
-    required this.SYMB,
-    required this.NAME,
-    required this.ICON,
+    required this.symb,
+    required this.name,
+    required this.icon,
     required this.last,
     required this.diff,
     required this.rate,

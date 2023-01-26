@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:valor/models/constant_model.dart';
 import 'package:valor/models/stock_model.dart';
 
+// ignore: must_be_immutable
 class CardView extends StatelessWidget {
   late StockData stockData;
 
@@ -30,7 +31,7 @@ class CardView extends StatelessWidget {
               Row(
                 children: [
                   Icon(
-                    stockData.ICON,
+                    stockData.icon,
                     size: 32,
                   ),
                   mediumSizedBox,
@@ -39,11 +40,11 @@ class CardView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        stockData.SYMB,
+                        stockData.symb,
                         style: smallTextStyle,
                       ),
                       Text(
-                        stockData.NAME,
+                        stockData.name,
                         style: mediumTextStyle,
                       ),
                     ],

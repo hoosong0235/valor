@@ -31,7 +31,7 @@ const EdgeInsets largeEdgeInsets = EdgeInsets.all(32);
 const EdgeInsets mediumEdgeInsets = EdgeInsets.all(16);
 const EdgeInsets smallEdgeInsets = EdgeInsets.all(12);
 
-const List<String> SYMBList = [
+const List<String> symbList = [
   'AAPL',
   'MSFT',
   'GOOG',
@@ -44,7 +44,7 @@ const List<String> SYMBList = [
   'AVGO',
 ];
 
-const List<String> NAMEList = [
+const List<String> nameList = [
   'Apple',
   'Microsoft',
   'Alphabet C',
@@ -57,7 +57,7 @@ const List<String> NAMEList = [
   'Broadcom'
 ];
 
-const List<IconData> ICONList = [
+const List<IconData> iconList = [
   SimpleIcons.apple,
   SimpleIcons.microsoft,
   SimpleIcons.google,

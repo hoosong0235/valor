@@ -7,19 +7,19 @@ import 'package:valor/models/constant_model.dart';
 import 'package:valor/models/chart_model.dart';
 import 'package:valor/models/stock_model.dart';
 
+// ignore: must_be_immutable
 class ChartView extends StatelessWidget {
   late ChartController chartController;
   ChartModel chartModel = ChartModel();
 
-  ChartView({required this.chartController});
+  ChartView({super.key, required this.chartController});
 
-  Future<bool> initialize({required String SYMB}) async {
+  Future<bool> initialize({required String symb}) async {
     try {
-      chartModel.initialize(await chartController.dailyPrice(SYMB: SYMB));
+      chartModel.initialize(await chartController.dailyPrice(symb: symb));
 
       return true;
     } catch (e) {
-      print('[Error] chart_view initialize $e');
       return false;
     }
   }
@@ -28,7 +28,7 @@ class ChartView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<StockProvider>(
       builder: (context, value, child) => FutureBuilder(
-        future: initialize(SYMB: value.stockData.SYMB),
+        future: initialize(symb: value.stockData.symb),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!) {
             return Column(
@@ -44,7 +44,7 @@ class ChartView extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            value.stockData.ICON,
+                            value.stockData.icon,
                             size: 64,
                           ),
                           mediumSizedBox,
@@ -53,11 +53,11 @@ class ChartView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                value.stockData.SYMB,
+                                value.stockData.symb,
                                 style: smallTextStyle,
                               ),
                               Text(
-                                value.stockData.NAME,
+                                value.stockData.name,
                                 style: largeTextStyle,
                               ),
                             ],
@@ -70,7 +70,7 @@ class ChartView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Stock Price',
                                 style: smallTextStyle,
                               ),
@@ -85,7 +85,7 @@ class ChartView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Daily Change',
                                 style: smallTextStyle,
                               ),
@@ -115,9 +115,9 @@ class ChartView extends StatelessWidget {
                           color: Colors.green,
                           dataSource: chartModel.chartDataList,
                           xValueMapper: (ChartData datum, index) =>
-                              datum.stck_bsop_date,
+                              datum.stckBsopDate,
                           yValueMapper: (ChartData datum, index) =>
-                              datum.ovrs_nmix_prpr,
+                              datum.ovrsNmixPrpr,
                           trendlines: <Trendline>[
                             Trendline(
                               type: TrendlineType.linear,

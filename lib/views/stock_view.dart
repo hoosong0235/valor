@@ -6,7 +6,7 @@ import 'package:valor/models/constant_model.dart';
 class StockView extends StatelessWidget {
   final StockData stockData;
 
-  StockView({
+  const StockView({
     super.key,
     required this.stockData,
   });
@@ -17,7 +17,7 @@ class StockView extends StatelessWidget {
 
     return Consumer<StockProvider>(
       builder: (context, value, child) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: ElevatedButton(
           onPressed: () {
             value.change(
@@ -25,7 +25,7 @@ class StockView extends StatelessWidget {
             );
           },
           style: ButtonStyle(
-            backgroundColor: value.stockData.SYMB == stockData.SYMB
+            backgroundColor: value.stockData.symb == stockData.symb
                 ? MaterialStatePropertyAll(colorScheme.surfaceVariant)
                 : MaterialStatePropertyAll(colorScheme.surface),
           ),
@@ -38,7 +38,7 @@ class StockView extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      stockData.ICON,
+                      stockData.icon,
                       size: 32,
                       color: colorScheme.onBackground,
                     ),
@@ -48,13 +48,13 @@ class StockView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          stockData.SYMB,
+                          stockData.symb,
                           style: smallTextStyle.copyWith(
                             color: colorScheme.onBackground,
                           ),
                         ),
                         Text(
-                          stockData.NAME,
+                          stockData.name,
                           style: mediumTextStyle.copyWith(
                             color: colorScheme.onBackground,
                           ),

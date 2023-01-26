@@ -1,109 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:valor/controllers/stock_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:valor/models/stock_model.dart';
 import 'package:valor/models/constant_model.dart';
 
-class StockView extends StatefulWidget {
+class StockView extends StatelessWidget {
   final String SYMB;
   final String NAME;
   final IconData ICON;
-  final StockController stockController;
+  final StockData stockData;
 
   StockView({
     super.key,
     required this.NAME,
     required this.SYMB,
     required this.ICON,
-    required this.stockController,
+    required this.stockData,
   });
 
   @override
-  State<StockView> createState() => _StockViewState();
-}
-
-class _StockViewState extends State<StockView> {
-  Future<StockData> receiveStockData() async {
-    return await widget.stockController.price(SYMB: widget.SYMB);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: mediumEdgeInsets,
-        child: FutureBuilder<StockData>(
-          future: receiveStockData(),
-          initialData: StockData(
-            SYMB: 'LOADING',
-            last: 0.00,
-            diff: 0.00,
-            fltt_rt: 0.00,
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Consumer<StockProvider>(
+      builder: (context, value, child) => Padding(
+        padding: EdgeInsets.symmetric(vertical: 6),
+        child: ElevatedButton(
+          onPressed: () {
+            value.change(
+              stockData: stockData,
+            );
+          },
+          style: ButtonStyle(
+            backgroundColor: value.stockData.SYMB == SYMB
+                ? MaterialStatePropertyAll(colorScheme.surfaceVariant)
+                : MaterialStatePropertyAll(colorScheme.surface),
           ),
-          builder: (context, snapshot) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    widget.ICON,
-                    size: 32,
-                  ),
-                  mediumSizedBox,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        snapshot.data!.SYMB,
-                        style: smallTextStyle,
-                      ),
-                      Text(
-                        widget.NAME,
-                        style: mediumTextStyle,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Stock Price',
-                        style: smallTextStyle,
-                      ),
-                      Text(
-                        '\$${snapshot.data!.last.toStringAsFixed(2)}',
-                        style: mediumTextStyle,
-                      ),
-                    ],
-                  ),
-                  largeSizedBox,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Daily Change',
-                        style: smallTextStyle,
-                      ),
-                      Text(
-                        '${snapshot.data!.fltt_rt < 0 ? '-' : '+'}\$${snapshot.data!.diff.toStringAsFixed(2)}(${snapshot.data!.fltt_rt.toStringAsFixed(2)}%)',
-                        style: mediumTextStyle.copyWith(
-                          color: snapshot.data!.fltt_rt < 0
-                              ? Colors.red
-                              : Colors.green,
+          child: Padding(
+            padding: mediumEdgeInsets,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      ICON,
+                      size: 32,
+                      color: colorScheme.onBackground,
+                    ),
+                    mediumSizedBox,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          stockData.SYMB,
+                          style: smallTextStyle.copyWith(
+                            color: colorScheme.onBackground,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
+                        Text(
+                          NAME,
+                          style: mediumTextStyle.copyWith(
+                            color: colorScheme.onBackground,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Stock Price',
+                          style: smallTextStyle.copyWith(
+                            color: colorScheme.onBackground,
+                          ),
+                        ),
+                        Text(
+                          '\$${stockData.last.toStringAsFixed(2)}',
+                          style: mediumTextStyle.copyWith(
+                            color: colorScheme.onBackground,
+                          ),
+                        ),
+                      ],
+                    ),
+                    largeSizedBox,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Daily Change',
+                          style: smallTextStyle.copyWith(
+                            color: colorScheme.onBackground,
+                          ),
+                        ),
+                        Text(
+                          '${stockData.rate < 0 ? '-' : '+'}\$${stockData.diff.toStringAsFixed(2)}(${stockData.rate.toStringAsFixed(2)}%)',
+                          style: mediumTextStyle.copyWith(
+                            color:
+                                stockData.rate < 0 ? Colors.red : Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

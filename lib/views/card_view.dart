@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:valor/models/constant_model.dart';
+import 'package:valor/models/stock_model.dart';
 
 class CardView extends StatelessWidget {
-  const CardView({super.key});
+  late StockData stockData;
+
+  CardView({
+    super.key,
+    required this.stockData,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Card(
         child: Padding(
           padding: mediumEdgeInsets,
@@ -16,15 +22,15 @@ class CardView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Most Change',
+                stockData.rate < 0 ? 'Least Rate' : 'Most Rate',
                 style: mediumTextStyle.copyWith(
-                  color: Colors.green,
+                  color: stockData.rate < 0 ? Colors.red : Colors.green,
                 ),
               ),
               Row(
                 children: [
                   Icon(
-                    Icons.apple,
+                    stockData.ICON,
                     size: 32,
                   ),
                   mediumSizedBox,
@@ -33,11 +39,11 @@ class CardView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'AAPL',
+                        stockData.SYMB,
                         style: smallTextStyle,
                       ),
                       Text(
-                        'APPLE',
+                        stockData.NAME,
                         style: mediumTextStyle,
                       ),
                     ],
@@ -45,9 +51,9 @@ class CardView extends StatelessWidget {
                 ],
               ),
               Text(
-                '+\$0.00(+0.0%)',
-                style: smallTextStyle.copyWith(
-                  color: Colors.green,
+                '${stockData.rate < 0 ? '-' : '+'}\$${stockData.diff.toStringAsFixed(2)}(${stockData.rate.toStringAsFixed(2)}%)',
+                style: mediumTextStyle.copyWith(
+                  color: stockData.rate < 0 ? Colors.red : Colors.green,
                 ),
               ),
             ],

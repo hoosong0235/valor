@@ -17,7 +17,7 @@ class Valor extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       routes: {
-        StocksView.route: (context) => const StocksView(),
+        StocksView.route: (context) => StocksView(),
       },
       initialRoute: StocksView.route,
     );

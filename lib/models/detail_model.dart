@@ -9,30 +9,8 @@ class DetailData {
 }
 
 class DetailModel {
-  List<DetailData> stockDataList = [
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 1),
-      ovrs_nmix_prpr: 1,
-    ),
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 3),
-      ovrs_nmix_prpr: 4,
-    ),
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 5),
-      ovrs_nmix_prpr: 3,
-    ),
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 7),
-      ovrs_nmix_prpr: 6,
-    ),
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 9),
-      ovrs_nmix_prpr: 5,
-    ),
-    DetailData(
-      stck_bsop_date: DateTime(2023, 1, 11),
-      ovrs_nmix_prpr: 8,
-    ),
-  ];
+  late List<DetailData> detailDataList;
+
+  void initialize(List<DetailData> detailDataList) =>
+      this.detailDataList = detailDataList;
 }

@@ -1,16 +1,15 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:valor/models/stock_model.dart';
+import 'package:valor/models/detail_model.dart';
 import 'package:http/http.dart' as http;
 
-class StockController {
+class DetailController {
   final String APP_KEY = 'PS13e7l2E553EXd7ajQy1Yhpl2FQleSnu9Bk';
   final String APP_SECRET =
       'i7ANXfra+KuDXYwkk4bukJ3a9ULdKyrxXeH7AXChsSYNsiYRYaIxqUEhnqAayXe2r6VAeJeCFQUPj2yrMOY1LmydcXZMnThNKp7YPYvO+SDInOD3FqA6nL5DSPoHGT3iLXuBn4E9tgPuOdNB2Zx8ZJeHPO5xrNm0JIa67PSUs3ha2Ior0zU=';
   final String AUTHORITY = 'openapi.koreainvestment.com:9443';
   String ACCESS_TOKEN = '';
 
-  // Initialize Stock Controller
+  // Initialize Detail Controller
   Future<void> initialize() async {
     try {
       http.Response response = await http.post(
@@ -30,53 +29,49 @@ class StockController {
     }
   }
 
-  // Inquire Price
-  Future<StockData> price({
-    required String SYMB,
-    required String NAME,
-    required IconData ICON,
-  }) async {
+  // Inquire Daily Price
+  Future<List<DetailData>> dailyPrice({required String SYMB}) async {
+    List<DetailData> detailDataList = [];
+
     try {
       http.Response response = await http.get(
         Uri.https(
           AUTHORITY,
-          '/uapi/overseas-price/v1/quotations/price',
+          '/uapi/overseas-price/v1/quotations/dailyprice',
           {
             'AUTH': '',
             'EXCD': 'NAS',
             'SYMB': SYMB,
+            'GUBN': '0',
+            'BYMD': '',
+            'MODP': '1',
           },
         ),
         headers: {
           'authorization': 'Bearer $ACCESS_TOKEN',
           'appkey': APP_KEY,
           'appsecret': APP_SECRET,
-          'tr_id': 'HHDFS00000300',
+          'tr_id': 'HHDFS76240000',
         },
       );
 
       dynamic body = jsonDecode(response.body);
-      dynamic output = body['output'];
+      dynamic outputList = body['output2'];
 
-      return StockData(
-        SYMB: SYMB,
-        NAME: NAME,
-        ICON: ICON,
-        last: double.parse(output['last']),
-        diff: double.parse(output['diff']),
-        rate: double.parse(output['rate']),
-      );
+      for (dynamic output in outputList) {
+        detailDataList.add(
+          DetailData(
+            stck_bsop_date: DateTime.parse(output['xymd']),
+            ovrs_nmix_prpr: double.parse(output['clos']),
+          ),
+        );
+      }
+
+      return detailDataList;
     } catch (e) {
-      print('[Error] stock_controller price: $e');
+      print('[Error] detail_controller price: $e');
 
-      return StockData(
-        SYMB: '0',
-        NAME: '0',
-        ICON: Icons.abc,
-        last: 0,
-        diff: 0,
-        rate: 0,
-      );
+      return detailDataList;
     }
   }
 }

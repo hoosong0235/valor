@@ -35,7 +35,7 @@ class MainView extends StatelessWidget {
           ),
         );
       }
-      cardModel.initialize(stockModel.getNMostOrLeastRate(n: 10));
+      cardModel.initialize(stockModel.getNMostOrLeastRate(n: 5));
       return true;
     } catch (e) {
       return false;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:simple_icons/simple_icons.dart';
 import 'package:valor/models/stock_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -69,7 +70,7 @@ class StockController {
       return StockData(
         symb: 'error',
         name: 'error',
-        icon: icon,
+        icon: Icons.error_outline,
         last: 0,
         diff: 0,
         rate: 0,

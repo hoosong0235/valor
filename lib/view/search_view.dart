@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:valor_2/model/custom_widget_model.dart';
+import 'package:valor/model/custom_widget_model.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({super.key});

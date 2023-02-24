@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:valor/views/main_view.dart';
+import 'package:valor_2/view/search_view.dart';
 
 void main() {
-  runApp(const Valor());
+  runApp(MyApp());
 }
 
-class Valor extends StatelessWidget {
-  const Valor({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: SearchView(),
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.green,
         brightness: Brightness.dark,
       ),
-      routes: {
-        MainView.route: (context) => MainView(),
-      },
-      initialRoute: MainView.route,
     );
   }
 }

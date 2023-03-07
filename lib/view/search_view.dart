@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:valor/model/custom_widget_model.dart';
 
 class SearchView extends StatefulWidget {
+  static String route = 'search_view';
+
   SearchView({super.key});
 
   @override
@@ -23,7 +25,7 @@ class _SearchViewState extends State<SearchView> {
             children: [
               Padding(
                 padding: EdgeInsets.all(32),
-                child: CircleAvatar(),
+                child: CircleAvatar(radius: 24),
               ),
             ],
           ),
@@ -37,7 +39,7 @@ class _SearchViewState extends State<SearchView> {
                 ),
               ),
               SizedBox(height: 32),
-              CustomSearch(hintText: 'Hinted search text'),
+              CustomSearch(hintText: 'Hinted search text', width: 1024),
             ],
           )
         ],
